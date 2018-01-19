@@ -1,5 +1,9 @@
 from django.shortcuts import render, HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
+from django import conf
+import importlib
+
+
 
 # Create your views here.
 
@@ -31,4 +35,14 @@ def signout(request):
 
 
 def king_admin_index(request):
+    print(conf.settings.INSTALLED_APPS)
+    apps = conf.settings.INSTALLED_APPS
+    for app_name in apps:
+        try:
+            app_imported = importlib.__import__("%s.kingadmin" %app_name)
+            print(app_imported)
+        except ModuleNotFoundError:
+            pass
     return render(request, "kingadmin/king_admin_index.html")
+
+
