@@ -46,3 +46,5 @@ def king_admin_index(request):
     return render(request, "kingadmin/king_admin_index.html")
 
 
+
+
