@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from django import conf
 import importlib
 from kingadmin.sites import site
@@ -40,5 +41,8 @@ def king_admin_index(request):
     return render(request, "kingadmin/king_admin_index.html",{"sites": site.enabled_admin})
 
 
-
-
+@login_required
+def table_list(request, app_name, model_name):
+    print(app_name)
+    print(model_name)
+    return HttpResponse("hello from table_list!")
