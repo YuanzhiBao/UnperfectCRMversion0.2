@@ -7,6 +7,7 @@ discover()
 
 # Create your views here.
 
+
 def signin(request):
     print(request.GET.get)
     print(request.POST.get)

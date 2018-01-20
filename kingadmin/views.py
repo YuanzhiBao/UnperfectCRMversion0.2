@@ -2,7 +2,9 @@ from django.shortcuts import render, HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
 from django import conf
 import importlib
+from kingadmin.sites import site
 
+# print("kingadmin\\views.py", site.enabled_admin)
 
 
 # Create your views here.

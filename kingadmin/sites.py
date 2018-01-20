@@ -14,6 +14,6 @@ class AdminSite(object):
         if app_label not in self.enabled_admin:
             self.enabled_admin[app_label] = {}
         self.enabled_admin[app_label][model_name] = admin_class
-        print("--->>AdminSite model_class", self.enabled_admin)
+        # print("--->>AdminSite model_class", self.enabled_admin)
 
 site = AdminSite()
