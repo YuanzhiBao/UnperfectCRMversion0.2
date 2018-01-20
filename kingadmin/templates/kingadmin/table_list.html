@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <span>hello from kingadmin_table_list</span>
+
 
 {% endblock %}
 
@@ -21,11 +21,19 @@
     <thead>
         <tr>
             <th>
+                <td style="color: #993333">{{ model_name }} </td>
             </th>
         </tr>
     </thead>
     <!--  {'userprofile': None, 'student': None, 'menus': None}  -->
     <tbody>
+    {% for  item in querysets %}
+        <tr>
+            <th>
+                <td>{{ item }}</td>
+            </th>
+        </tr>
+    {% endfor %}
     </tbody>
 
     </table>

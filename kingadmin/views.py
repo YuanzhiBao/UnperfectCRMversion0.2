@@ -43,6 +43,9 @@ def king_admin_index(request):
 
 @login_required
 def table_list(request, app_name, model_name):
-    print(app_name)
-    print(model_name)
-    return HttpResponse("hello from table_list!")
+    # print(site.enabled_admin[app_name][model_name].model.objects.all())
+
+    admin_class = site.enabled_admin[app_name][model_name] #get the admin_class class save in the list
+    querysets = admin_class.model.objects.all() # get the data
+
+    return render(request, "kingadmin/table_list.html",{"querysets": querysets,"model_name":model_name})

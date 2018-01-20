@@ -4,5 +4,11 @@ __author__ = 'Yuanzhi Bao'
 
 from student import models
 from kingadmin.sites import site
+from kingadmin.admin_base import BaseKingAdmin
 
-site.register(models.Student)
+
+
+class CustomerAdmin(BaseKingAdmin):
+    list_display = ['name']
+
+site.register(models.Student,CustomerAdmin)
