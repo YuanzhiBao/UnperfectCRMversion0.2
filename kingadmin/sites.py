@@ -1,6 +1,10 @@
 #!/usr/bin/evn python
 # -*- coding:utf-8 -*-
 __author__ = 'Yuanzhi Bao'
+# For every model which register in kingadmin
+# set up a global dic to represents the data
+# in a formatal way
+
 
 class AdminSite(object):
     def __init__(self):
