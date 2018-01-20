@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="kingadmin+UNperfect" pattern="file[UnperfectCRM]:kingadmin//*||file[UnperfectCRM]:UnperfectCRM//*" />
+</component>

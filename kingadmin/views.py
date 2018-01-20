@@ -35,14 +35,6 @@ def signout(request):
 
 
 def king_admin_index(request):
-    print(conf.settings.INSTALLED_APPS)
-    apps = conf.settings.INSTALLED_APPS
-    for app_name in apps:
-        try:
-            app_imported = importlib.__import__("%s.kingadmin" %app_name)
-            print(app_imported)
-        except ModuleNotFoundError:
-            pass
     return render(request, "kingadmin/king_admin_index.html")
 
 

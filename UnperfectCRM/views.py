@@ -1,5 +1,9 @@
 from django.shortcuts import render, HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
+from kingadmin.sites import site
+from kingadmin.app_setup import discover
+
+discover()
 
 # Create your views here.
 
