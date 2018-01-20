@@ -1,0 +1,42 @@
+{% extends "kingadmin/index.html" %}
+
+
+{% block extra-css %}
+
+{% endblock %}
+
+
+{% block content %}
+
+
+
+{% endblock %}
+
+
+{% block dashboard %}
+    <!--  get the sites information and show them,
+        includes app name and tables names-->
+
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                <td style="color: #993333">{{ model_name }} </td>
+            </th>
+        </tr>
+    </thead>
+    <!--  {'userprofile': None, 'student': None, 'menus': None}  -->
+    <tbody>
+    {% for  item in querysets %}
+        <tr>
+            <th>
+                <td>{{ item }}</td>
+            </th>
+        </tr>
+    {% endfor %}
+    </tbody>
+
+    </table>
+
+ 
+{% endblock %}
