@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from django import conf
 import importlib
 from kingadmin.sites import site
@@ -40,5 +41,11 @@ def king_admin_index(request):
     return render(request, "kingadmin/king_admin_index.html",{"sites": site.enabled_admin})
 
 
+@login_required
+def table_list(request, app_name, model_name):
+    # print(site.enabled_admin[app_name][model_name].model.objects.all())
 
+    admin_class = site.enabled_admin[app_name][model_name] #get the admin_class class save in the list
+    querysets = admin_class.model.objects.all() # get the data
 
+    return render(request, "kingadmin/table_list.html",{"querysets": querysets,"model_name":model_name})
