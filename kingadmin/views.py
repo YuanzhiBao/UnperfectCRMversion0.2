@@ -20,8 +20,8 @@ def signin(request):
         print(username)
         print(password)
         user = authenticate(username=username, password=password)
-        print(request.GET.get('next'))
-        print(request.GET.get)
+        # print(request.GET.get('next'))
+        # print(request.GET.get)
         if user:
             login(request,user)
             return redirect(request.GET.get('next','king_admin_index'))
@@ -37,7 +37,7 @@ def signout(request):
 
 
 def king_admin_index(request):
-    return render(request, "kingadmin/king_admin_index.html")
+    return render(request, "kingadmin/king_admin_index.html",{"sites": site.enabled_admin})
 
 
 
