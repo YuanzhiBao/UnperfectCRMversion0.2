@@ -6,6 +6,8 @@ __author__ = 'Yuanzhi Bao'
 # in a formatal way
 
 
+#xianzai shi dui de 
+
 class AdminSite(object):
     def __init__(self):
         self.enabled_admin = {}
