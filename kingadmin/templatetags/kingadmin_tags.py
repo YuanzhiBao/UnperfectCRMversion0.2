@@ -8,6 +8,8 @@ from django.utils.safestring import mark_safe
 
 register = Library()
 
+
+
 @register.simple_tag
 def build_table_row(obj, admin_class):
     ele = ""
