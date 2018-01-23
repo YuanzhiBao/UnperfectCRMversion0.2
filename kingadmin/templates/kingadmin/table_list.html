@@ -16,7 +16,7 @@
 {% block dashboard %}
     <!--  get the sites information and show them,
         includes app name and tables names-->
-
+    {{ querysets }}
     <table class="table table-hover">
     <thead>
         <tr>
@@ -27,6 +27,16 @@
     </thead>
     <!--  {'userprofile': None, 'student': None, 'menus': None}  -->
     <tbody>
+    <!--get the list_display from admin_class from the backend and show them-->
+    <tr>
+            <th>
+                {% for item in admin_class.list_display %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </th>
+    </tr>
+    <!--get all the data from backend and show them-->
+    <!--Gonna use tags to show data in the formated way nex step-->
     {% for  item in querysets %}
         <tr>
             <th>
