@@ -48,4 +48,4 @@ def table_list(request, app_name, model_name):
     admin_class = site.enabled_admin[app_name][model_name] #get the admin_class class save in the list
     querysets = admin_class.model.objects.all() # get the data
 
-    return render(request, "kingadmin/table_list.html",{"querysets": querysets,"model_name":model_name})
+    return render(request, "kingadmin/table_list.html",{"querysets": querysets,"model_name":model_name,"admin_class":admin_class})
