@@ -24,6 +24,13 @@
                 <td style="color: #993333">{{ model_name }} </td>
             </th>
         </tr>
+        <tr>
+            {% for filter_obj in admin_class.list_filter %}
+            <th>
+               {% build_filter_row filter_obj admin_class %}
+            </th>
+            {% endfor %}
+         </tr>
     </thead>
     <!--  {'userprofile': None, 'student': None, 'menus': None}  -->
     <tbody>
@@ -35,6 +42,10 @@
             {% endfor %}
         </th>
     </tr>
+
+
+
+
     <!--get all the data from backend and show them-->
     <!--Gonna use tags to show data in the formated way nex step-->
     {% for  item in querysets %}

@@ -22,3 +22,22 @@ def build_table_row(obj, admin_class):
         ele += "<td>%s</td>" % column_data
 
     return mark_safe(ele)
+
+
+@register.simple_tag
+def build_filter_row(filter_obj, admin_class):
+    opt = ""
+    # print(filter_list)
+    print(filter_obj)
+    field_name = admin_class.model._meta.get_field(filter_obj)
+    try:
+        opt += "<select>"
+        for choice in field_name.get_choices():
+            opt += "<option>%s - %s</option>" % choice
+            print(choice)
+        opt += "</select>"
+    except AttributeError:
+        pass
+    # print(opt)
+
+    return mark_safe(opt)
