@@ -33,9 +33,13 @@ def build_filter_row(filter_obj, admin_class):
     # print(filter_obj)
     field_name = admin_class.model._meta.get_field(filter_obj)
     try:
-        opt += "<select>"
+        type_of_internal = field_name.get_internal_type()
+        if type_of_internal in ('DateField','DateTimefield'):
+            opt += "<select name=%s__gte>" %filter_obj
+        else:
+            opt += "<select name=%s>" %filter_obj
         for choice in field_name.get_choices():
-            opt += "<option %s>%s</option>" % choice
+            opt += "<option value=%s>%s</option>" % (choice[0], choice[1])
             # print(choice)
         opt += "</select>"
     except AttributeError:
@@ -52,12 +56,12 @@ def build_filter_row(filter_obj, admin_class):
                 ( now_time.replace(month=1,day=1),"This Year"),
             ]
             for time_slot in time_opt_list:
-                print(type(time_slot[1]))
+                # print(type(time_slot[1]))
                 if time_slot[0] != "":
                     year = str(time_slot[0].year)
                     month = str(time_slot[0].month)
                     day = str(time_slot[0].day)
-                    opt += "<option %s-%s-%s>%s</option>" \
+                    opt += "<option value=%s-%s-%s>%s</option>" \
                            % (time_slot[0].year, time_slot[0].month, time_slot[0].day, time_slot[1])
                     # print(choice)
                 else:

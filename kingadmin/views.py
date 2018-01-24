@@ -41,6 +41,17 @@ def king_admin_index(request):
     return render(request, "kingadmin/king_admin_index.html",{"sites": site.enabled_admin})
 
 
+def selected_set(filter_list, querysets):
+    filtered_list = {}
+    for key,value in filter_list.items():
+        if value:
+            filtered_list[key] = value
+            if value == "------":
+                filtered_list[key] = "1970-07-01"
+    # print(filtered_list)
+    return filtered_list, querysets.filter(**filtered_list)
+
+
 @login_required
 def table_list(request, app_name, model_name):
     # print(site.enabled_admin[app_name][model_name].model.objects.all())
@@ -48,4 +59,10 @@ def table_list(request, app_name, model_name):
     admin_class = site.enabled_admin[app_name][model_name] #get the admin_class class save in the list
     querysets = admin_class.model.objects.all() # get the data
 
-    return render(request, "kingadmin/table_list.html",{"querysets": querysets,"model_name":model_name,"admin_class":admin_class})
+    # print(request.GET)
+    filter_list = request.GET
+    selected_sets, querysets = selected_set(filter_list, querysets)
+    print(querysets)
+
+    return render(request, "kingadmin/table_list.html",\
+                  {"querysets": querysets,"model_name":model_name,"admin_class":admin_class})
