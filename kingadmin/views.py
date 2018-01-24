@@ -44,11 +44,14 @@ def king_admin_index(request):
 def selected_set(filter_list, querysets):
     filtered_list = {}
     for key,value in filter_list.items():
-        if value:
+        if value == "---------":
+            filtered_list[key] = "1970-07-01"
+        elif value:
             filtered_list[key] = value
-            if value == "------":
-                filtered_list[key] = "1970-07-01"
-    # print(filtered_list)
+        # if value:
+        #     filtered_list[key] = value
+        #     if value == "---------":
+        #         filtered_list[key] = "1970-07-01"
     return filtered_list, querysets.filter(**filtered_list)
 
 
