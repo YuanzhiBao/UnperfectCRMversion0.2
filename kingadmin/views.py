@@ -61,8 +61,10 @@ def table_list(request, app_name, model_name):
 
     # print(request.GET)
     filter_list = request.GET
-    selected_sets, querysets = selected_set(filter_list, querysets)
-    print(querysets)
+    #get the selected_set and render them in front-end
+    filtered_list, querysets = selected_set(filter_list, querysets)
+    admin_class.filtered_list = filtered_list
+    # print(filtered_list)
 
     return render(request, "kingadmin/table_list.html",\
                   {"querysets": querysets,"model_name":model_name,"admin_class":admin_class})
