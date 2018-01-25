@@ -22,7 +22,6 @@ def build_table_row(obj, admin_class):
         else:
             column_data = getattr(obj, column_name)
         ele += "<td>%s</td>" % column_data
-
     return mark_safe(ele)
 
 
