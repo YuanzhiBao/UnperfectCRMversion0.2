@@ -18,12 +18,14 @@
         includes app name and tables names-->
     {{ querysets }}
     <div>
+    {% if admin_class.list_filter %}
     <form>
             {% for filter_obj in admin_class.list_filter %}
                {% build_filter_row filter_obj admin_class %}
             {% endfor %}
             <input type="submit" value="filter">
         </form>
+    {% endif %}
     </div>
     <table class="table table-hover">
     <thead>

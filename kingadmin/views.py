@@ -20,6 +20,7 @@ def signin(request):
         password = request.POST.get("password")
         print(username)
         print(password)
+
         user = authenticate(username=username, password=password)
         # print(request.GET.get('next'))
         # print(request.GET.get)
