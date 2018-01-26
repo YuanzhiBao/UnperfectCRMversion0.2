@@ -94,3 +94,24 @@ def build_filter_row(filter_obj, admin_class):
     # print(opt)
 
     return mark_safe(opt)
+
+
+@register.simple_tag
+def get_model_name(admin_class):
+    return admin_class.model._meta.model_name.upper()
+
+@register.simple_tag
+def build_page_navigation(querysets):
+    ele = '''
+    <nav aria-label="Page navigation">
+          <ul class="pagination">
+    '''
+    for i in querysets.paginator.page_range:
+        if abs(i-querysets.number) <= 2:
+            if abs(i-querysets.number) == 0:
+                ele += '''<li  class="active"><a href="?page=%s">%s</a></li>''' % (i, i)
+            else:
+                ele += '''<li ><a href="?page=%s">%s</a></li>''' %(i,i)
+    ele += '''</ul>'''
+    ele += '''</nav>'''
+    return mark_safe(ele)

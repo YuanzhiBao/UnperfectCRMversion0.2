@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django import conf
 import importlib
 from kingadmin.sites import site
+from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 
 # print("kingadmin\\views.py", site.enabled_admin)
 
@@ -45,6 +46,7 @@ def king_admin_index(request):
 def selected_set(filter_list, querysets):
     filtered_list = {}
     for key,value in filter_list.items():
+        if key == "page":continue
         if value == "---------":
             filtered_list[key] = "1970-07-01"
         elif value:
@@ -68,6 +70,18 @@ def table_list(request, app_name, model_name):
     #get the selected_set and render them in front-end
     filtered_list, querysets = selected_set(filter_list, querysets)
     admin_class.filtered_list = filtered_list
+
+    querysets  = Paginator(querysets ,2)
+    page = request.GET.get('page')
+    try:
+        querysets = querysets.get_page(page)
+    except PageNotAnInteger:
+        querysets = querysets.get_page(1)
+    except EmptyPage:
+        querysets = querysets.get_page(querysets.num_pages)
+
+
+
     # print(filtered_list)
 
     return render(request, "kingadmin/table_list.html",\

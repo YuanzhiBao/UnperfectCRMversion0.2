@@ -41,12 +41,15 @@
     <tbody>
     <tr>
         <th>
-            {% for item in admin_class.list_display %}
-                <td>{{ item }}</td>
-            {% endfor %}
+            {% if admin_class.list_display %}
+                {% for item in admin_class.list_display %}
+                    <td><a href="?o={{ forloop.counter0 }}">{{ item }}</a></td>
+                {% endfor %}
+            {% else %}
+                {% get_model_name admin_class %}
+            {% endif %}
         </th>
     </tr>
-    
 
     <!--get all the data from backend and show them-->
     <!--Gonna use tags to show data in the formated way nex step-->
@@ -61,5 +64,45 @@
 
     </table>
 
- 
+    {% build_page_navigation querysets %}
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if querysets.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ querysets.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ querysets.number }} of {{ querysets.paginator.num_pages }}.
+            </span>
+
+            {% if querysets.has_next %}
+                <a href="?page={{ querysets.next_page_number }}">next</a>
+                <a href="?page={{ querysets.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
 {% endblock %}
