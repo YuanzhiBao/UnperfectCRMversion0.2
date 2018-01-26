@@ -46,7 +46,7 @@ def king_admin_index(request):
 def selected_set(filter_list, querysets):
     filtered_list = {}
     for key,value in filter_list.items():
-        if key == "page":continue
+        if key in ("page","o"):continue
         if value == "---------":
             filtered_list[key] = "1970-07-01"
         elif value:
@@ -56,6 +56,12 @@ def selected_set(filter_list, querysets):
         #     if value == "---------":
         #         filtered_list[key] = "1970-07-01"
     return filtered_list, querysets.filter(**filtered_list)
+
+
+def sorted_querysets_by_column(request, querysets, admin_class):
+    sort_method = request.GET.get('o')
+    
+
 
 
 @login_required
@@ -68,8 +74,11 @@ def table_list(request, app_name, model_name):
     # print(request.GET)
     filter_list = request.GET
     #get the selected_set and render them in front-end
-    filtered_list, querysets = selected_set(filter_list, querysets)
-    admin_class.filtered_list = filtered_list
+    filtered_query, querysets = selected_set(filter_list, querysets)
+    admin_class.filtered_query = filtered_query
+
+    sorted_querysets = sorted_querysets_by_column(request, querysets, admin_class)
+
 
     querysets  = Paginator(querysets ,2)
     page = request.GET.get('page')

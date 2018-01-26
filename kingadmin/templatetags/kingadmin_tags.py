@@ -44,15 +44,15 @@ def build_filter_row(filter_obj, admin_class):
             opt += "<select name=%s>" %filter_obj
         for choice in field_name.get_choices():
             # print(filter_obj)
-            # print(admin_class.filtered_list)
+            # print(admin_class.filtered_query)
             # print(field_name.get_choices())
             # print(field_name.get_choices()[1])
-            if filter_obj in admin_class.filtered_list and \
-                str(choice[0]) == admin_class.filtered_list.get(filter_obj):
+            if filter_obj in admin_class.filtered_query and \
+                str(choice[0]) == admin_class.filtered_query.get(filter_obj):
                 opt += "<option selected value=%s>%s</option>" % (choice[0], choice[1])
-                # print("admin_class.filtered_list",admin_class.filtered_list)
+                # print("admin_class.filtered_query",admin_class.filtered_query)
                 # print("choice[0]",type(choice[0]))
-                # print("admin_class.filtered_list.get(filter_obj)",type(admin_class.filtered_list.get(filter_obj)))
+                # print("admin_class.filtered_query.get(filter_obj)",type(admin_class.filtered_query.get(filter_obj)))
             else:
                 opt += "<option value=%s>%s</option>" % (choice[0], choice[1])
         opt += "</select>"
@@ -77,13 +77,13 @@ def build_filter_row(filter_obj, admin_class):
                     day = ("0"+ str(time_slot[0].day)) if time_slot[0].day < 10 else (str(time_slot[0].day))
                     # print(time_slot[0].__format__("%Y-%m-%d"))
                     # print("time_slot[0].month-->>>",time_slot[0].month)
-                    # print(admin_class.filtered_list["date__gte"])
+                    # print(admin_class.filtered_query["date__gte"])
                     # print("filter_obj+__gte-->>", filter_obj+"__gte")
-                    if filter_obj+"__gte" in admin_class.filtered_list\
-                        and admin_class.filtered_list[filter_obj+"__gte"] == time_slot[0].__format__("%Y-%m-%d"):
+                    if filter_obj+"__gte" in admin_class.filtered_query\
+                        and admin_class.filtered_query[filter_obj+"__gte"] == time_slot[0].__format__("%Y-%m-%d"):
                         opt += "<option selected value=%s-%s-%s>%s</option>" \
                                % (year, month, day, time_slot[1])
-                        # print(admin_class.filtered_list[filter_obj+"__gte"])
+                        # print(admin_class.filtered_query[filter_obj+"__gte"])
                         # print(time_slot[0].__format__("%Y-%m-%d"))
                     else:
                         opt += "<option value=%s-%s-%s>%s</option>" \

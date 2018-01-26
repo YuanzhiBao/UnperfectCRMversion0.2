@@ -7,6 +7,7 @@ class CustomerAdmin(admin.ModelAdmin):
     list_display = ['name','source','contact_type','consultant','referral_name','status','consultant']
     list_filter = ['source','consultant', 'date']
     search_fields = ['name', 'contact', 'consultant__name']
+    list_per_page = 3
 
 
 admin.site.register(models.UserProfile)
