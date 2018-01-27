@@ -43,13 +43,16 @@
         <th>
             {% if admin_class.list_display %}
                 {% for item in admin_class.list_display %}
-                    <td><a href="?o={% get_order_method item admin_class forloop.counter0 %}">{{ item }}</a></td>
+                    <td><a href="?o={% get_order_method need_sort_column_name item admin_class%}">{{ item }}</a>
+                        {% build_order_method_arrow need_sort_column_name item admin_class %}
+                    </td>
                 {% endfor %}
             {% else %}
                 {% get_model_name admin_class %}
             {% endif %}
         </th>
     </tr>
+
 
     <!--get all the data from backend and show them-->
     <!--Gonna use tags to show data in the formated way nex step-->

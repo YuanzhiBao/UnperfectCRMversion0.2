@@ -60,14 +60,19 @@ def selected_set(filter_list, querysets):
 
 def sorted_querysets_by_column(request, querysets, admin_class):
     need_sort_column_index = request.GET.get('o')
-    if need_sort_column_index:
-        need_sort_column_name = admin_class.list_display[int(need_sort_column_index)]
+    if not need_sort_column_index:
+        return None, querysets
+    elif need_sort_column_index.startswith('-'):
+        need_sort_column_name = admin_class.list_display[abs(int(need_sort_column_index))]
         # print(querysets)
+        need_sort_column_name = '-'+ need_sort_column_name
         querysets = querysets.order_by(need_sort_column_name)
-        # print(querysets)
         return need_sort_column_name,querysets
     else:
-        return None,querysets
+        need_sort_column_name = admin_class.list_display[abs(int(need_sort_column_index))]
+        querysets = querysets.order_by(need_sort_column_name)
+        return need_sort_column_name, querysets
+
 
 
 @login_required
@@ -85,7 +90,9 @@ def table_list(request, app_name, model_name):
 
     #avoid get the warning that Paginotor could get unpredicatetabl result for unordered queryset
     querysets = querysets.order_by('id')
+
     need_sort_column_name,sorted_querysets = sorted_querysets_by_column(request, querysets, admin_class)
+    print(need_sort_column_name)
     querysets  = Paginator(sorted_querysets ,2)
     page = request.GET.get('page')
     try:
@@ -100,4 +107,5 @@ def table_list(request, app_name, model_name):
     # print(filtered_list)
 
     return render(request, "kingadmin/table_list.html",\
-                  {"querysets": querysets,"model_name":model_name,"admin_class":admin_class})
+                  {"querysets": querysets,"model_name":model_name,\
+                   "admin_class":admin_class, "need_sort_column_name": need_sort_column_name})

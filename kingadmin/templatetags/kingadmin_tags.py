@@ -118,9 +118,15 @@ def build_page_navigation(querysets):
 
 
 @register.simple_tag
-def get_order_method(item, admin_class, forloop):
+def get_order_method(need_sort_column_name, item, admin_class):
+    #list admincalss forloop
     # sort_need_index = admin_class.list_display[item]
     # print(sort_need_index)
+    sort_need_index = admin_class.list_display.index(item)
+    if need_sort_column_name == item:
+        sort_need_index = '-' + str(sort_need_index)
+    # print(sort_need_index)
+    return sort_need_index
     # if (sort_need_index.startwith('-')):
 
     '''
@@ -134,4 +140,18 @@ def get_order_method(item, admin_class, forloop):
     else:
         return None, querysets
     '''
-    pass
+
+@register.simple_tag
+def build_order_method_arrow(need_sort_column_name, item, admin_class):
+    #list admincalss forloop
+    # sort_need_index = admin_class.list_display[item]
+    # print(sort_need_index)
+    new = need_sort_column_name
+    ele = ''''''
+    if new:
+        if new.strip('-') == item:
+            if need_sort_column_name.startswith('-'):
+                ele += '''<span class ="glyphicon glyphicon-menu-up"> </span>'''
+            elif need_sort_column_name == item:
+                ele += '''<span class ="glyphicon glyphicon-menu-down"> </span>'''
+    return mark_safe(ele)
