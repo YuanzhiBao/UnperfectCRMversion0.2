@@ -21,10 +21,14 @@
     {% if admin_class.list_filter %}
     <form>
             {% for filter_obj in admin_class.list_filter %}
-               {% build_filter_row filter_obj admin_class %}
+               {% build_filter_row filter_obj admin_class%}
             {% endfor %}
+            <input type="hidden" name="o" value="{% get_sorted_column admin_class %}">
+            <input type="hidden" name="page" value="{{ querysets.number }}">
             <input type="submit" value="filter">
+
     </form>
+
     {% endif %}
     </div>
     <table class="table table-hover">
@@ -71,8 +75,7 @@
 
     </table>
 
-    {% build_page_navigation querysets %}
-
+    {% build_page_navigation querysets admin_class %}
 
     <div class="pagination">
         <span class="step-links">

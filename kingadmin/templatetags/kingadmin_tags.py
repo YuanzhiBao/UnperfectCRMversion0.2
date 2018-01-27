@@ -93,6 +93,7 @@ def build_filter_row(filter_obj, admin_class):
             opt += "</select>"
     # print(opt)
 
+
     return mark_safe(opt)
 
 
@@ -101,7 +102,7 @@ def get_model_name(admin_class):
     return admin_class.model._meta.model_name.upper()
 
 @register.simple_tag
-def build_page_navigation(querysets):
+def build_page_navigation(querysets,admin_class):
     ele = '''
     <nav aria-label="Page navigation">
           <ul class="pagination">
@@ -163,15 +164,18 @@ def get_filteredlist_pagenum(admin_class, querysets):
     filtered_list = admin_class.filtered_query
     # print(filtered_list)
     ele = ""
-    if page_num and filtered_list:
+    if page_num:
         ele += "&page=%s" % page_num
+    if filtered_list:
         for k, v in filtered_list.items():
             ele += "&%s=%s" % (k, v)
-    elif page_num:
-        ele += "&page=%s" % page_num
-    elif filtered_list:
-        for k, v in filtered_list.items():
-            ele += "&%s=%s" % (k, v)
+    return mark_safe(ele)
+
+
+@register.simple_tag
+def get_sorted_column(admin_class):
+    if admin_class.sorted_column:
+        for k,v in admin_class.sorted_column.items():
+            return v
     else:
-        ele +=''
-    return  mark_safe(ele)
+        return ""
