@@ -102,19 +102,30 @@ def get_model_name(admin_class):
     return admin_class.model._meta.model_name.upper()
 
 @register.simple_tag
-def build_page_navigation(querysets,admin_class):
+def build_page_navigation(querysets, admin_class):
     ele = '''
     <nav aria-label="Page navigation">
           <ul class="pagination">
     '''
+    filtered_column_index = ''
+    if admin_class.sorted_column.values():
+        filtered_column_index = list(admin_class.sorted_column.values())[0]
+    filtered_ele = ""
+    if admin_class.filtered_query:
+        print(admin_class.filtered_query)
+        for k,v in admin_class.filtered_query.items():
+            filtered_ele += "&%s=%s" % (k,v)
     for i in querysets.paginator.page_range:
         if abs(i-querysets.number) <= 2:
             if abs(i-querysets.number) == 0:
-                ele += '''<li  class="active"><a href="?page=%s">%s</a></li>''' % (i, i)
+                ele += '''<li  class="active"><a href="?page=%s&o=%s%s">%s</a></li>''' \
+                       % (i, filtered_column_index,filtered_ele, i)
             else:
-                ele += '''<li ><a href="?page=%s">%s</a></li>''' %(i,i)
+                ele += '''<li ><a href="?page=%s&o=%s%s">%s</a></li>''' \
+                       %(i, filtered_column_index,filtered_ele, i)
     ele += '''</ul>'''
     ele += '''</nav>'''
+
     return mark_safe(ele)
 
 

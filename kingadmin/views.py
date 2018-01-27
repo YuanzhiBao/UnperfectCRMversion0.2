@@ -69,13 +69,13 @@ def sorted_querysets_by_column(request, querysets, admin_class):
         need_sort_column_name = '-'+ need_sort_column_name
         querysets = querysets.order_by(need_sort_column_name)
         sorted_column[need_sort_column_name.strip('-')] = str(abs(int(need_sort_column_index)))
-        print(sorted_column)
+        # print(sorted_column)
         return need_sort_column_name,querysets, sorted_column
     else:
         need_sort_column_name = admin_class.list_display[abs(int(need_sort_column_index))]
         querysets = querysets.order_by(need_sort_column_name)
         sorted_column[need_sort_column_name.strip('-')] = '-' + need_sort_column_index
-        print(sorted_column)
+        # print(sorted_column)
         return need_sort_column_name, querysets, sorted_column
 
 
