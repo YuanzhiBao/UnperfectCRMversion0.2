@@ -24,7 +24,7 @@
                {% build_filter_row filter_obj admin_class %}
             {% endfor %}
             <input type="submit" value="filter">
-        </form>
+    </form>
     {% endif %}
     </div>
     <table class="table table-hover">
@@ -41,9 +41,13 @@
     <tbody>
     <tr>
         <th>
+           <!--  render the display header 这里以list_display去render了所有需要显示的字段名  -->
             {% if admin_class.list_display %}
                 {% for item in admin_class.list_display %}
-                    <td><a href="?o={% get_order_method need_sort_column_name item admin_class%}">{{ item }}</a>
+                    <!--  add href for the column that could be ordered 在字段名中加入了排序的href  -->
+                    <!--  add filtered_list and page num to the href 在字段名中加入了筛选和页面  -->
+                    <td><a href="?o={% get_order_method need_sort_column_name item admin_class%}{% get_filteredlist_pagenum admin_class querysets %}">{{ item }}</a>
+                        <!--  add_arrow for the column that ordered这里加入了显示排序方向的箭头  -->
                         {% build_order_method_arrow need_sort_column_name item admin_class %}
                     </td>
                 {% endfor %}

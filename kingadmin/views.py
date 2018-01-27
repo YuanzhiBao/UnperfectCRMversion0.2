@@ -92,8 +92,8 @@ def table_list(request, app_name, model_name):
     querysets = querysets.order_by('id')
 
     need_sort_column_name,sorted_querysets = sorted_querysets_by_column(request, querysets, admin_class)
-    print(need_sort_column_name)
-    querysets  = Paginator(sorted_querysets ,2)
+    # print(need_sort_column_name)
+    querysets  = Paginator(sorted_querysets ,4)
     page = request.GET.get('page')
     try:
         querysets = querysets.get_page(page)
@@ -102,6 +102,7 @@ def table_list(request, app_name, model_name):
     except EmptyPage:
         querysets = querysets.get_page(querysets.num_pages)
 
+    admin_class.sorted_colunm_name = need_sort_column_name
 
 
     # print(filtered_list)

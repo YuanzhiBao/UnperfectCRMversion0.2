@@ -155,3 +155,23 @@ def build_order_method_arrow(need_sort_column_name, item, admin_class):
             elif need_sort_column_name == item:
                 ele += '''<span class ="glyphicon glyphicon-menu-down"> </span>'''
     return mark_safe(ele)
+
+
+@register.simple_tag
+def get_filteredlist_pagenum(admin_class, querysets):
+    page_num = querysets.number
+    filtered_list = admin_class.filtered_query
+    # print(filtered_list)
+    ele = ""
+    if page_num and filtered_list:
+        ele += "&page=%s" % page_num
+        for k, v in filtered_list.items():
+            ele += "&%s=%s" % (k, v)
+    elif page_num:
+        ele += "&page=%s" % page_num
+    elif filtered_list:
+        for k, v in filtered_list.items():
+            ele += "&%s=%s" % (k, v)
+    else:
+        ele +=''
+    return  mark_safe(ele)
