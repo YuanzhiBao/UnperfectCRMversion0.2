@@ -59,9 +59,15 @@ def selected_set(filter_list, querysets):
 
 
 def sorted_querysets_by_column(request, querysets, admin_class):
-    sort_method = request.GET.get('o')
-    
-
+    need_sort_column_index = request.GET.get('o')
+    if need_sort_column_index:
+        need_sort_column_name = admin_class.list_display[int(need_sort_column_index)]
+        # print(querysets)
+        querysets = querysets.order_by(need_sort_column_name)
+        # print(querysets)
+        return need_sort_column_name,querysets
+    else:
+        return None,querysets
 
 
 @login_required
@@ -77,10 +83,10 @@ def table_list(request, app_name, model_name):
     filtered_query, querysets = selected_set(filter_list, querysets)
     admin_class.filtered_query = filtered_query
 
-    sorted_querysets = sorted_querysets_by_column(request, querysets, admin_class)
-
-
-    querysets  = Paginator(querysets ,2)
+    #avoid get the warning that Paginotor could get unpredicatetabl result for unordered queryset
+    querysets = querysets.order_by('id')
+    need_sort_column_name,sorted_querysets = sorted_querysets_by_column(request, querysets, admin_class)
+    querysets  = Paginator(sorted_querysets ,2)
     page = request.GET.get('page')
     try:
         querysets = querysets.get_page(page)

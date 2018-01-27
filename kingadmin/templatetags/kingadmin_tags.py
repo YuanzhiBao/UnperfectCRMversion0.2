@@ -115,3 +115,23 @@ def build_page_navigation(querysets):
     ele += '''</ul>'''
     ele += '''</nav>'''
     return mark_safe(ele)
+
+
+@register.simple_tag
+def get_order_method(item, admin_class, forloop):
+    # sort_need_index = admin_class.list_display[item]
+    # print(sort_need_index)
+    # if (sort_need_index.startwith('-')):
+
+    '''
+    need_sort_column_index = request.GET.get('o')
+    if need_sort_column_index:
+        need_sort_column_name = admin_class.list_display[int(need_sort_column_index)]
+        # print(querysets)
+        querysets = querysets.order_by(need_sort_column_name)
+        # print(querysets)
+        return need_sort_column_name, querysets
+    else:
+        return None, querysets
+    '''
+    pass

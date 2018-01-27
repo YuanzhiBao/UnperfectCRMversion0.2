@@ -43,7 +43,7 @@
         <th>
             {% if admin_class.list_display %}
                 {% for item in admin_class.list_display %}
-                    <td><a href="?o={{ forloop.counter0 }}">{{ item }}</a></td>
+                    <td><a href="?o={% get_order_method item admin_class forloop.counter0 %}">{{ item }}</a></td>
                 {% endfor %}
             {% else %}
                 {% get_model_name admin_class %}
