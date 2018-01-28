@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django import conf
+from django.db.models import Q
 import importlib
 from kingadmin.sites import site
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
@@ -46,7 +47,7 @@ def king_admin_index(request):
 def selected_set(filter_list, querysets):
     filtered_list = {}
     for key,value in filter_list.items():
-        if key in ("page","o"):continue
+        if key in ("page","o","search_fileds"):continue
         if value == "---------":
             filtered_list[key] = "1970-07-01"
         elif value:
@@ -80,6 +81,21 @@ def sorted_querysets_by_column(request, querysets, admin_class):
 
 
 
+def searched_querysets(request, sorted_querysets, admin_class):
+    search_demand = request.GET.get("search_fileds")
+    print(search_demand)
+    if search_demand:
+        q = Q()
+        q.connector = 'OR'
+        for search_filed in admin_class.search_fields:
+            q.children.append(("%s__contains" % search_filed, search_demand))
+
+        return sorted_querysets.filter(q)
+    return sorted_querysets
+
+
+
+
 @login_required
 def table_list(request, app_name, model_name):
     # print(site.enabled_admin[app_name][model_name].model.objects.all())
@@ -98,7 +114,10 @@ def table_list(request, app_name, model_name):
 
     need_sort_column_name,sorted_querysets, sorted_column = sorted_querysets_by_column(request, querysets, admin_class)
     # print(need_sort_column_name)
-    querysets  = Paginator(sorted_querysets ,4)
+
+    searched_queryset = searched_querysets(request, sorted_querysets, admin_class)
+
+    querysets  = Paginator(searched_queryset ,4)
     page = request.GET.get('page')
     try:
         querysets = querysets.get_page(page)

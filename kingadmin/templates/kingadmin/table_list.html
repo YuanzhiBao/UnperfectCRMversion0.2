@@ -18,6 +18,37 @@
         includes app name and tables names-->
     {{ querysets }}
     <div>
+    <form method="get">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Please search for " name="search_fileds">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span>Options</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        {% for v in admin_class.search_fields %}{{ v }}
+                          <li>{{ v }}</li>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                <input type="hidden" name="o" value="{% get_sorted_column admin_class %}">
+                <input type="hidden" name="page" value="{{ querysets.number }}">
+                <input type="hidden" value="{% get_filteredlist_pagenum admin_class querysets %}">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+                  </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+    </form>
+{#        <span>#}
+{#             {% for k,v in admin_class.filtered_query %} name={{ k }} valuename="page" value="{{ querysets.number }}">#}
+{#            {% get_filteredlist_pagenum admin_class querysets %}#}
+{#        </span>#}
+    <br>
+    <br>
+    </div>
+    <div>
     {% if admin_class.list_filter %}
     <form>
             {% for filter_obj in admin_class.list_filter %}
@@ -26,6 +57,7 @@
             <input type="hidden" name="o" value="{% get_sorted_column admin_class %}">
             <input type="hidden" name="page" value="{{ querysets.number }}">
             <input type="submit" value="filter">
+
 
     </form>
 

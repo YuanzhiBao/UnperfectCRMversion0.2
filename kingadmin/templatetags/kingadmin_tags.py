@@ -131,27 +131,10 @@ def build_page_navigation(querysets, admin_class):
 
 @register.simple_tag
 def get_order_method(need_sort_column_name, item, admin_class):
-    #list admincalss forloop
-    # sort_need_index = admin_class.list_display[item]
-    # print(sort_need_index)
     sort_need_index = admin_class.list_display.index(item)
     if need_sort_column_name == item:
         sort_need_index = '-' + str(sort_need_index)
-    # print(sort_need_index)
     return sort_need_index
-    # if (sort_need_index.startwith('-')):
-
-    '''
-    need_sort_column_index = request.GET.get('o')
-    if need_sort_column_index:
-        need_sort_column_name = admin_class.list_display[int(need_sort_column_index)]
-        # print(querysets)
-        querysets = querysets.order_by(need_sort_column_name)
-        # print(querysets)
-        return need_sort_column_name, querysets
-    else:
-        return None, querysets
-    '''
 
 @register.simple_tag
 def build_order_method_arrow(need_sort_column_name, item, admin_class):
