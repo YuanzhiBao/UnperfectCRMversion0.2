@@ -145,7 +145,14 @@ def table_obj_change(request, app_name, model_name, obj_id):
 
     model_form = form_handler.get_dynamic_modelform(admin_class)
 
-    form_obj = model_form(instance=obj)
+    if request.method == "GET":
+        form_obj = model_form(instance=obj)
+    elif request.method == "POST":
+        form_obj = model_form(instance=obj, data=request.POST)
+        # print("POST:-->>>", form_obj)
+        if form_obj.is_valid():
+            form_obj.save()
+            return redirect("/kingadmin/%s/%s/" %(app_name,model_name))
 
     # print(form_obj.instance)
 
@@ -155,5 +162,22 @@ def table_obj_change(request, app_name, model_name, obj_id):
     #
     # form_obj = form.CustomerInfo()
 
-
     return render(request, "kingadmin/table_obj_change.html", locals())
+
+
+def table_obj_add(request, app_name, model_name):
+    admin_class = site.enabled_admin[app_name][model_name]  # get the admin_class class save in the list
+    # querysets = admin_class.model.objects.all()  # get the data
+
+    model_form = form_handler.get_dynamic_modelform(admin_class)
+
+    if request.method == "GET":
+        form_obj = model_form()
+    elif request.method == "POST":
+        form_obj = model_form(data=request.POST)
+        # print("POST:-->>>", form_obj)
+        if form_obj.is_valid():
+            form_obj.save()
+            return redirect("/kingadmin/%s/%s/" % (app_name, model_name))
+
+    return render(request, "kingadmin/table_obj_add.html", locals())
