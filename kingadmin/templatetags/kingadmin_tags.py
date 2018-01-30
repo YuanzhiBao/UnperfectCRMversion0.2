@@ -13,18 +13,23 @@ register = Library()
 
 
 @register.simple_tag
-def build_table_row(obj, admin_class):
+def build_table_row(count,obj, admin_class):
     ele = ""
     if admin_class.list_display:
-        for column_name in admin_class.list_display:
+        for index, column_name in enumerate(admin_class.list_display):
             column_obj = admin_class.model._meta.get_field(column_name)
             if column_obj.choices:
                 column_data = getattr(obj, "get_%s_display" %column_name)()
+                # print(column_data)
             else:
                 column_data = getattr(obj, column_name)
-            ele += "<td>%s</td>" % column_data
+            if not index:
+                ele += "<td><a href='%s/change'>%s</a></td>" % (obj.id, column_data)
+                # print("id--->",obj.id)
+            else:
+                ele += "<td>%s</td>" % column_data
     else:
-        ele += "<td>%s</td>" % obj
+        ele += "<td><a href='%s/change'>%s</a></td>" % (count, obj)
     return mark_safe(ele)
 
 
@@ -112,7 +117,7 @@ def build_page_navigation(querysets, admin_class):
         filtered_column_index = list(admin_class.sorted_column.values())[0]
     filtered_ele = ""
     if admin_class.filtered_query:
-        print(admin_class.filtered_query)
+        # print(admin_class.filtered_query)
         for k,v in admin_class.filtered_query.items():
             filtered_ele += "&%s=%s" % (k,v)
     for i in querysets.paginator.page_range:

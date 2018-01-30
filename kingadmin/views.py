@@ -13,15 +13,15 @@ from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 # Create your views here.
 
 def signin(request):
-    print(request.GET.get)
-    print(request.POST.get)
-    print(request.method)
+    # print(request.GET.get)
+    # print(request.POST.get)
+    # print(request.method)
     if request.method == "POST":
         # return redirect("/crm/")
         username = request.POST.get("username")
         password = request.POST.get("password")
-        print(username)
-        print(password)
+        # print(username)
+        # print(password)
 
         user = authenticate(username=username, password=password)
         # print(request.GET.get('next'))
@@ -83,7 +83,7 @@ def sorted_querysets_by_column(request, querysets, admin_class):
 
 def searched_querysets(request, sorted_querysets, admin_class):
     search_demand = request.GET.get("search_fileds")
-    print(search_demand)
+    # print(search_demand)
     if search_demand:
         q = Q()
         q.connector = 'OR'
@@ -136,3 +136,12 @@ def table_list(request, app_name, model_name):
     return render(request, "kingadmin/table_list.html",\
                   {"querysets": querysets,"model_name":model_name,\
                    "admin_class":admin_class, "need_sort_column_name": need_sort_column_name})
+
+
+def table_obj_change(request, app_name, model_name, obj_id):
+    admin_class = site.enabled_admin[app_name][model_name]  # get the admin_class class save in the list
+    querysets = admin_class.model.objects.all()  # get the data
+    form_obj = querysets.filter(id=obj_id)
+    print(form_obj)
+
+    return render(request, "kingadmin/table_obj_change.html", locals())

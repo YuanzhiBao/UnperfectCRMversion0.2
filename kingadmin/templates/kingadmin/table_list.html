@@ -99,7 +99,7 @@
     {% for  item in querysets %}
         <tr>
             <th>
-               {% build_table_row item admin_class  %}
+               {% build_table_row forloop.counter item admin_class  %}
             </th>
         </tr>
     {% endfor %}
