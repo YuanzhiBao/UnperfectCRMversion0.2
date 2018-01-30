@@ -1,12 +1,13 @@
-from django.shortcuts import render, HttpResponse,redirect
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django import conf
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
-import importlib
-from kingadmin.sites import site
-from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
+from django.shortcuts import render, redirect
+
 from kingadmin import form_handler
+from kingadmin.sites import site
+
+
 # print("kingadmin\\views.py", site.enabled_admin)
 
 
@@ -101,16 +102,17 @@ def table_list(request, app_name, model_name):
     # print(site.enabled_admin[app_name][model_name].model.objects.all())
 
     admin_class = site.enabled_admin[app_name][model_name] #get the admin_class class save in the list
-    querysets = admin_class.model.objects.all() # get the data
+    querysets = admin_class.model.objects.all().order_by('-id')# get the data
 
     # print(request.GET)
+    # print("dir--->>>>",dir(querysets))
     filter_list = request.GET
     #get the selected_set and render them in front-end
     filtered_query, querysets = selected_set(filter_list, querysets)
     admin_class.filtered_query = filtered_query
 
     #avoid get the warning that Paginotor could get unpredicatetabl result for unordered queryset
-    querysets = querysets.order_by('id')
+    querysets = querysets.order_by('-id')
 
     need_sort_column_name,sorted_querysets, sorted_column = sorted_querysets_by_column(request, querysets, admin_class)
     # print(need_sort_column_name)
@@ -125,6 +127,9 @@ def table_list(request, app_name, model_name):
         querysets = querysets.get_page(1)
     except EmptyPage:
         querysets = querysets.get_page(querysets.num_pages)
+
+
+
 
     admin_class.sorted_colunm_name = need_sort_column_name
 
@@ -169,7 +174,9 @@ def table_obj_add(request, app_name, model_name):
     admin_class = site.enabled_admin[app_name][model_name]  # get the admin_class class save in the list
     # querysets = admin_class.model.objects.all()  # get the data
 
-    model_form = form_handler.get_dynamic_modelform(admin_class)
+    model_form = form_handler.get_dynamic_modelform(admin_class, True)
+
+    admin_class.add_form_bool = True
 
     if request.method == "GET":
         form_obj = model_form()

@@ -1,3 +1,5 @@
+{% load kingadmin_tags %}
+
 
     <form class="form-horizontal" method="post">{% csrf_token %}
 
@@ -9,7 +11,18 @@
                     <span style="color: red">{{ field.errors.0 }}</span>
                 </div>
               </div>
+
         {% endfor %}
+        {% if not admin_class.add_form_bool %}
+            {% for field in admin_class.readonly_fields %}
+               <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">{{ field }}</label>
+                    <div class="col-sm-10">
+                        {% get_field_content form_obj field%}
+                    </div>
+               </div>
+            {% endfor %}
+        {% endif %}
 
          <div class="form-group">
             <div class="col-sm-offset-10 col-sm-10">

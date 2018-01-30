@@ -11,6 +11,7 @@ class CustomerInfo(ModelForm):
         model = models.CustomerInfo
         fields = "__all__"
 
+
     def __new__(cls, *args, **kwargs):
         print("cls.base_fields-->>", cls.base_fields)
 

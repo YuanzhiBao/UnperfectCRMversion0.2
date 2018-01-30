@@ -5,11 +5,14 @@ __author__ = 'Yuanzhi Bao'
 from django.forms import ModelForm
 
 
-def get_dynamic_modelform(admin_class):
+def get_dynamic_modelform(admin_class, add_form_bool = False):
 
     class Meta:
         model = admin_class.model
         fields = "__all__"
+        if not add_form_bool:
+            exclude = admin_class.readonly_fields
+            admin_class.add_form_bool = False
 
     def __new__(cls, *args, **kwargs):
         # print("cls.base_fields-->>", cls.base_fields)

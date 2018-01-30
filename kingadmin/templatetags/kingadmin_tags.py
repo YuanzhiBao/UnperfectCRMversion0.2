@@ -178,3 +178,9 @@ def get_sorted_column(admin_class):
             return v
     else:
         return ""
+
+
+@register.simple_tag
+def get_field_content(form_obj, field):
+
+    return getattr(form_obj.instance, field)

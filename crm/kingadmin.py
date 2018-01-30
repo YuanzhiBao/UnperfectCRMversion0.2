@@ -7,9 +7,10 @@ from kingadmin.sites import site
 from kingadmin.admin_base import BaseKingAdmin
 
 class CustomerAdmin(BaseKingAdmin):
-    list_display = ['id','name','source','contact_type','consultant','referral_name','status','date']
+    list_display = ['id','name','source','contact_type','consultant','referral_name','status','date',]
     list_filter = ['source','consultant', 'date']
     search_fields = ['name', 'contact', 'consultant__name']
+    readonly_fields = ['status', 'consultant',]
 
 site.register(models.UserProfile)
 site.register(models.CustomerInfo,CustomerAdmin)
