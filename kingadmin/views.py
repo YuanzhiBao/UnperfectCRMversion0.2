@@ -6,7 +6,7 @@ from django.db.models import Q
 import importlib
 from kingadmin.sites import site
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
-
+from kingadmin import form_handler
 # print("kingadmin\\views.py", site.enabled_admin)
 
 
@@ -140,8 +140,20 @@ def table_list(request, app_name, model_name):
 
 def table_obj_change(request, app_name, model_name, obj_id):
     admin_class = site.enabled_admin[app_name][model_name]  # get the admin_class class save in the list
-    querysets = admin_class.model.objects.all()  # get the data
-    form_obj = querysets.filter(id=obj_id)
-    print(form_obj)
+    # querysets = admin_class.model.objects.all()  # get the data
+    obj = admin_class.model.objects.get(id=obj_id)
+
+    model_form = form_handler.get_dynamic_modelform(admin_class)
+
+    form_obj = model_form(instance=obj)
+
+    # print(form_obj.instance)
+
+    # from crm import models
+    #
+    # from crm import form
+    #
+    # form_obj = form.CustomerInfo()
+
 
     return render(request, "kingadmin/table_obj_change.html", locals())
