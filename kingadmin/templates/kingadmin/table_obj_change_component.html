@@ -14,6 +14,8 @@
                                 <option ondblclick="MoveSelectedOption(this,'id_{{ field.name }}_to')" value="{{ obj.id }}">{{ obj }}</option>
                             {% endfor %}
                         </select>
+                        <p><a onclick="MoveAllElements('id_{{ field.name }}_from',
+                              'id_{{ field.name }}_to')">Choose All</a></p>
                       </div>
                      <div class="col-sm-5">
                         <select tag="selected_m2m" id="id_{{ field.name }}_to" multiple class="form-control" name="{{ field.name }}">
@@ -22,6 +24,8 @@
                                 <option value="{{ obj.id }}" ondblclick="MoveSelectedOption(this,'id_{{ field.name }}_from')">{{ obj }}</option>
                             {% endfor %}
                         </select>
+                        <p><a onclick="MoveAllElements('id_{{ field.name }}_to',
+                              'id_{{ field.name }}_from')">Remove All</a></p>
                       </div>
                  </div>
             {% else %}
@@ -71,4 +75,13 @@
         $("select[tag] option").prop('selected',true);
 
     }
+
+     function MoveAllElements(from_id,to_id) {
+
+        console.log( $("#"+from_id).children())
+         $("#"+from_id).children().each(function () {
+             MoveSelectedOption(this,to_id);
+         })
+    }
+
 </script>

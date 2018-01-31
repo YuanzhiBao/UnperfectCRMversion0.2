@@ -200,3 +200,4 @@ def get_m2m_avaliable(admin_class, field_name, form_obj):
 def get_m2m_selected(admin_class, field_name, form_obj):
 
     return set(getattr(form_obj.instance, field_name).all())
+
