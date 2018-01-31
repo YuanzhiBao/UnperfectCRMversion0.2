@@ -184,3 +184,19 @@ def get_sorted_column(admin_class):
 def get_field_content(form_obj, field):
 
     return getattr(form_obj.instance, field)
+
+@register.simple_tag
+def get_m2m_avaliable(admin_class, field_name, form_obj):
+    model_obj = admin_class.model._meta.get_field(field_name)
+    obj_list = set(model_obj.related_model.objects.all())
+
+    selected_list = set(getattr(form_obj.instance, field_name).all())
+
+    # print(selected_list)
+
+    return obj_list - selected_list
+
+@register.simple_tag
+def get_m2m_selected(admin_class, field_name, form_obj):
+
+    return set(getattr(form_obj.instance, field_name).all())

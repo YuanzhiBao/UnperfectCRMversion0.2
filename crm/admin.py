@@ -9,6 +9,7 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ['name', 'contact', 'consultant__name']
     list_per_page = 3
     readonly_fields = ['status','consultant',]
+    filter_horizontal = ['consult_courses',]
 
 
 admin.site.register(models.UserProfile)
