@@ -62,7 +62,7 @@
     </form>
     {% endif %}
 
-
+    <!--action的选择和提交框 -->
     <form>
         <div>
             <div class="col-sm-5">
@@ -83,6 +83,7 @@
     <table class="table table-hover">
     <thead>
         <tr>
+
             <th>
                 <td style="color: #993333">{{ model_name }} </td>
             </th>
@@ -94,6 +95,7 @@
     <tbody>
     <tr>
         <th>
+        <input type="checkbox">
            <!--  render the display header 这里以list_display去render了所有需要显示的字段名  -->
             {% if admin_class.list_display %}
                 {% for item in admin_class.list_display %}
@@ -116,7 +118,8 @@
     {% for  item in querysets %}
         <tr>
             <th>
-               {% build_table_row forloop.counter item admin_class  %}
+                <input row-select="true" type="checkbox" value="{{ item.id }}">
+                {% build_table_row forloop.counter item admin_class  %}
             </th>
         </tr>
     {% endfor %}
