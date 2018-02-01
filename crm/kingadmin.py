@@ -5,6 +5,7 @@ from django.core.paginator import Paginator,PageNotAnInteger
 from crm import models
 from kingadmin.sites import site
 from kingadmin.admin_base import BaseKingAdmin
+from django.shortcuts import render, redirect
 
 class CustomerAdmin(BaseKingAdmin):
     list_display = ['id','name','source','contact_type','consultant','referral_name','status','date',]
@@ -14,6 +15,12 @@ class CustomerAdmin(BaseKingAdmin):
     filter_horizontal = ['consult_courses', ]
     list_per_page = 10
     actions = ["duang",]
+
+
+
+    def duang(self, request, querysets):
+        querysets.update(status=0)
+        return redirect("/kingadmin/")
 
 
 site.register(models.UserProfile)

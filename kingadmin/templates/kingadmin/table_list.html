@@ -63,11 +63,11 @@
     {% endif %}
 
     <!--action的选择和提交框 -->
-    <form>
+    <form onsubmit="return ActionCheck(this)" method="post">{% csrf_token %}
         <div>
             <div class="col-sm-5">
-                <select class="form-control">
-                    <option>--------</option>
+                <select class="form-control" name="action">
+                    <option value=''>--------</option>
                     {% for item in admin_class.actions %}
                         <option value="{{ item }}">{{item}}</option>
                     {% endfor %}
@@ -95,7 +95,8 @@
     <tbody>
     <tr>
         <th>
-        <input type="checkbox">
+         <!--  checkbox有一定的约束条件  -->
+        <input type="checkbox" onclick="SelectAllObjs(this)">
            <!--  render the display header 这里以list_display去render了所有需要显示的字段名  -->
             {% if admin_class.list_display %}
                 {% for item in admin_class.list_display %}
@@ -118,6 +119,8 @@
     {% for  item in querysets %}
         <tr>
             <th>
+                <!--  checkbox有一定的约束条件  -->
+                 <!--  value就是这个checkbox带到后端的值对-->
                 <input row-select="true" type="checkbox" value="{{ item.id }}">
                 {% build_table_row forloop.counter item admin_class  %}
             </th>
@@ -166,4 +169,49 @@
   </ul>
 </nav>
 
+
+{% endblock %}
+
+
+
+{% block script %}
+<script>
+function SelectAllObjs(ele) {
+
+    if($(ele).prop('checked')){
+        $('input[row-select]').prop('checked',true)
+    } else {
+        $('input[row-select]').prop('checked',false)
+    }
+
+}
+
+function ActionCheck(ele) {
+    //去到action里面的值 也就是要做的action
+    var selected_action = $("select[name='action']").val();
+    //把下面的input 的checkbox中的所有打上勾勾的选出来
+    var selected_objs = $("input[row-select]").filter(":checked");
+    //如果没有选择action或者打上勾的行数为零
+    if (!selected_action){
+        alert("No action selected")
+        false
+    }
+    if (selected_objs.length == 0){
+        alert("No action selected")
+        false
+    } else {
+        //生成一个标签，放到form里
+        var selected_ids = []
+        $.each(selected_objs, function () {
+            selected_ids.push($(this).val())
+        })
+        var input_ele = "<input type='hidden' name='selected_ids' value=" +
+            JSON.stringify(selected_ids) + ">"
+    }
+
+    $(ele).append(input_ele);
+}
+
+
+</script>
 {% endblock %}

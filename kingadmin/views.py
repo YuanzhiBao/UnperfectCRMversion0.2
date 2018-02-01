@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.shortcuts import render, redirect
-
+import json
 from kingadmin import form_handler
 from kingadmin.sites import site
 
@@ -102,6 +102,21 @@ def table_list(request, app_name, model_name):
     # print(site.enabled_admin[app_name][model_name].model.objects.all())
 
     admin_class = site.enabled_admin[app_name][model_name] #get the admin_class class save in the list
+
+    if request.method == "POST":
+        selected_obj_action = request.POST.get("action")
+        selected_obj_ids = json.loads(request.POST.get("selected_ids"))
+        print(selected_obj_action, selected_obj_ids)
+
+        selected_objs = admin_class.model.objects.filter(id__in=selected_obj_ids)
+
+        admin_class_func = getattr(admin_class, selected_obj_action)
+
+        admin_class_func(request, selected_objs)
+
+
+
+
     querysets = admin_class.model.objects.all().order_by('-id')# get the data
 
     # print(request.GET)
