@@ -21,7 +21,6 @@ from UnperfectCRM import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^crm/', include('crm.urls')),
-    url(r'^student/',include('student.urls')),
     url(r'^kingadmin/',include('kingadmin.urls')),
     url(r'^signin/',views.signin,name="signin"),
     url(r'^signout/',views.signout,name="signout"),

@@ -8,6 +8,7 @@
                  <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">{{ field.label }}</label>
                       <div class="col-sm-5">
+                      <input type="search" class="form-control" placeholder="Search for..." oninput="FuzzSearch(this)">
                         <select id="id_{{ field.name }}_from" multiple class="form-control">
                             {% get_m2m_avaliable admin_class field.name form_obj as m2m_avaliable %}
                             {% for obj in m2m_avaliable %}
@@ -49,12 +50,16 @@
             {% endfor %}
         {% endif %}
 
-         <div class="form-group">
-            <div class="col-sm-offset-10 col-sm-10">
-              <button type="submit" class="btn btn-info">Save</button>
+    {% block btn_for_delete %}
+    {% endblock %}
+        <div class="col-sm-offset-0 col-sm-12">
+            <div class="form-group">
+                <div class="col-sm-offset-2">
+                    <a  class="btn btn-danger" href="{% url "table_obj_delete" app_name model_name form_obj.instance.id %}">Delete</a>
+                    <button style="float: right" type="submit" class="btn btn-info">Save</button>
+                </div>
             </div>
         </div>
-
     </form>
 
 <script>
@@ -75,6 +80,18 @@
         $("select[tag] option").prop('selected',true);
 
     }
+    
+    function FuzzSearch(ele) {
+        console.log($(ele).val())
+        var search_text = $(ele).val().toUpperCase();
+        $(ele).next().children().each(function () {
+            if ( $(this).text().toUpperCase().search(search_text) != -1){
+                $(this).show();
+            }else {
+                $(this).hide();
+            }
+        })
+    }
 
      function MoveAllElements(from_id,to_id) {
 
@@ -83,5 +100,7 @@
              MoveSelectedOption(this,to_id);
          })
     }
+
+
 
 </script>

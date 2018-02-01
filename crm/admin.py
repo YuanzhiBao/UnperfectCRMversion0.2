@@ -8,7 +8,6 @@ class CustomerAdmin(admin.ModelAdmin):
     list_filter = ['source','consultant', 'date']
     search_fields = ['name', 'contact', 'consultant__name']
     list_per_page = 3
-    readonly_fields = ['status','consultant',]
     filter_horizontal = ['consult_courses',]
 
 

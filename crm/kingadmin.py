@@ -12,6 +12,8 @@ class CustomerAdmin(BaseKingAdmin):
     search_fields = ['name', 'contact', 'consultant__name']
     readonly_fields = ['status', 'consultant',]
     filter_horizontal = ['consult_courses', ]
+    list_per_page = 10
+    actions = ["duang",]
 
 
 site.register(models.UserProfile)

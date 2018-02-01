@@ -51,7 +51,7 @@ class Student(models.Model):
 
 
     def __str__(self):
-        return self.customer
+        return self.customer.name
 
 
 class CustomerFollowUp(models.Model):

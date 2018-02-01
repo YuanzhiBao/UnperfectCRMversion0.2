@@ -119,7 +119,7 @@ def table_list(request, app_name, model_name):
 
     searched_queryset = searched_querysets(request, sorted_querysets, admin_class)
 
-    querysets  = Paginator(searched_queryset ,4)
+    querysets  = Paginator(searched_queryset ,admin_class.list_per_page)
     page = request.GET.get('page')
     try:
         querysets = querysets.get_page(page)
@@ -188,3 +188,16 @@ def table_obj_add(request, app_name, model_name):
             return redirect("/kingadmin/%s/%s/" % (app_name, model_name))
 
     return render(request, "kingadmin/table_obj_add.html", locals())
+
+
+@login_required
+def table_obj_delete(request, app_name, model_name, obj_id):
+    admin_class = site.enabled_admin[app_name][model_name]
+    obj = admin_class.model.objects.get(id=obj_id)
+
+
+    if request.method == "POST":
+        obj.delete()
+        return redirect("/kingadmin/{app_name}/{model_name}/".format(app_name=app_name,model_name=model_name))
+
+    return render(request, "kingadmin/table_obj_delete.html", locals())

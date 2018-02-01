@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^(\w+)/(\w+)/$', views.table_list, name="table_list"),
     url(r'^(\w+)/(\w+)/(\d+)/change$', views.table_obj_change, name="table_obj_change"),
     url(r'^(\w+)/(\w+)/add', views.table_obj_add, name="table_obj_add"),
+    url(r'^(\w+)/(\w+)/(\d+)/delete$', views.table_obj_delete, name="table_obj_delete"),
     url(r'^signin/', views.signin, name="signin"), url(r'^signin/', views.signin, name="signin"),
     url(r'^signout/', views.signout, name="signout"), url(r'^signout/', views.signout, name="signout"),
 ]

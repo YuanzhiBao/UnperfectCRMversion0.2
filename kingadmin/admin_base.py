@@ -7,4 +7,6 @@ class BaseKingAdmin(object):
     list_filter = []
     search_fields = []
     list_per_page = 25
+    readonly_fields =[]
+    actions = []
 
