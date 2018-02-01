@@ -58,12 +58,13 @@
             <input type="hidden" name="page" value="{{ querysets.number }}">
             <input type="submit" value="filter">
 
-
     </form>
     {% endif %}
 
     <!--action的选择和提交框 -->
     <form onsubmit="return ActionCheck(this)" method="post">{% csrf_token %}
+        <input type="hidden" value="{{ model_name }}" name="model_name">
+        <input type="hidden" value="{{ app_name }}" name="app_name">
         <div>
             <div class="col-sm-5">
                 <select class="form-control" name="action">

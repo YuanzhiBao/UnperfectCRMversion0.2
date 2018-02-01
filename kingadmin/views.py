@@ -153,9 +153,7 @@ def table_list(request, app_name, model_name):
     admin_class.sorted_column = sorted_column
     # print(filtered_list)
 
-    return render(request, "kingadmin/table_list.html",\
-                  {"querysets": querysets,"model_name":model_name,\
-                   "admin_class":admin_class, "need_sort_column_name": need_sort_column_name})
+    return render(request, "kingadmin/table_list.html",locals())
 
 
 def table_obj_change(request, app_name, model_name, obj_id):

@@ -17,9 +17,9 @@ class CustomerAdmin(BaseKingAdmin):
     actions = ["duang",]
 
 
-
     def duang(self, request, querysets):
         querysets.update(status=0)
+
         return redirect("/kingadmin/")
 
 
