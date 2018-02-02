@@ -30,11 +30,16 @@ class BaseKingAdmin(object):
                     # else:
                     #     admin_class = admin_class()
 
-        print(querysets)
-        print("type(querysets)-->",type(querysets))
+        # print(querysets)
+        # print("type(querysets)-->",type(querysets))
         querysets_ids = json.dumps([i.id for i in querysets])
+        print("self.aqq_name-->",self.model._meta.app_label)
 
-        return render(request, "kingadmin/table_obj_delete.html", {"admin_class":self, "objs": querysets,'querysets_ids':querysets_ids})
+
+        return render(request, "kingadmin/table_obj_delete.html", \
+                      {"admin_class":self, "objs": querysets,'querysets_ids':querysets_ids,\
+                       'app_name':self.model._meta.app_label,'model_name':self.model._meta.model_name})
+
 
         # return render(request, "kingadmin/table_obj_delete.html")
 

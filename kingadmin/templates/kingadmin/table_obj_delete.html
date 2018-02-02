@@ -7,17 +7,40 @@
 <h2 class="page-header">{% get_model_name admin_class %}</h2>
 <h4 class="page-header">删除{{ obj.name }}</h4>
 
+
+<ol class="breadcrumb">
+  <li><a href="/kingadmin/">kingadmin</a></li>
+  <li><a href="/kingadmin/{{ app_name }}">{{ app_name }}</a></li>
+  <li><a href="/kingadmin/{{ app_name }}/{{ model_name }}">{{ model_name }}</a></li>
+{% if objs %}
+    <li>
+        {% for obj in objs %}
+        <span>&&</span>
+        <a href="/kingadmin/{{ app_name }}/{{ model_name }}/{{ obj.id }}/change">{{ obj }}</a>
+         {% endfor %}
+    </li>
+{% elif obj %}
+    <li><a href="/kingadmin/{{ app_name }}/{{ model_name }}/{{ obj.id }}/change">{{ obj }}</a></li>
+{% endif %}
+
+</ol>
+
 <div>
 
 
+{% if objs %}
+    {% for obj in objs %}
 
-{% for obj in objs %}
+    {% get_obj_delete_relation obj as obj_related_fields %}
 
-{% get_obj_delete_relation obj as obj_related_fields %}
+    {{ obj_related_fields | safe }}
 
-{{ obj_related_fields | safe }}
+    {% endfor %}
+{% else %}
+    {% get_obj_delete_relation obj as obj_related_fields %}
 
-{% endfor %}
+    {{ obj_related_fields | safe }}
+{% endif %}
 
 <form method="POST"> {% csrf_token %}
     {% if querysets_ids %}

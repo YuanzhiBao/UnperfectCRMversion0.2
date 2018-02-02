@@ -1,5 +1,17 @@
 {% load kingadmin_tags %}
 
+<ol class="breadcrumb">
+  <li><a href="/kingadmin/">kingadmin</a></li>
+  <li><a href="/kingadmin/{{ app_name }}">{{ app_name }}</a></li>
+  <li><a href="/kingadmin/{{ app_name }}/{{ model_name }}">{{ model_name }}</a></li>
+{% if form_obj.instance %}
+    <li><a href="/kingadmin/{{ app_name }}/{{ model_name }}/{{ form_obj.instance.id }}/change">{{ form_obj.instance }}</a></li>
+{% else %}
+    <li><a href="/kingadmin/{{ app_name }}/{{ model_name }}/{{ obj.id }}/change">{{ obj }}</a></li>
+{% endif %}
+</ol>
+
+
 
     <form class="form-horizontal" method="post" onsubmit="VerificationBeforeFormSubmit()">{% csrf_token %}
 
