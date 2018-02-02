@@ -62,22 +62,22 @@
     {% endif %}
 
     <!--action的选择和提交框 -->
-    <form onsubmit="return ActionCheck(this)" method="post">{% csrf_token %}
+    <form onsubmit="return ActionCheck(this)" method="POST">{% csrf_token %}
         <input type="hidden" value="{{ model_name }}" name="model_name">
         <input type="hidden" value="{{ app_name }}" name="app_name">
-        <div>
-            <div class="col-sm-5">
-                <select class="form-control" name="action">
-                    <option value=''>--------</option>
-                    {% for item in admin_class.actions %}
-                        <option value="{{ item }}">{{item}}</option>
-                    {% endfor %}
-                </select>
+            <div>
+                <div class="col-sm-5">
+                    <select class="form-control" name="action">
+                        <option value=''>--------</option>
+                        {% for item in admin_class.actions %}
+                            <option value="{{ item }}">{{item}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <button  type="submit" class="btn btn-info">Action</button>
+                </div>
             </div>
-            <div class="col-sm-5">
-                <button  type="submit" class="btn btn-info">Action</button>
-            </div>
-        </div>
     </form>
 
     </div>

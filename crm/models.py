@@ -31,7 +31,7 @@ class CustomerInfo(models.Model):
         (0, 'QQ群'), (1, '51CTO'), (2,'百度推广'),(3,'知乎'),
     )
     source = models.SmallIntegerField(choices=source_choices, default=0)
-    referral_name = models.ForeignKey("self", blank=True, null=True, verbose_name="推荐人", on_delete=models.CASCADE)
+    referral_name = models.ForeignKey("self", blank=True, null=True, verbose_name="推荐人", on_delete=models.SET_NULL)
     consult_courses = models.ManyToManyField("Course", verbose_name="咨询课程")
     consult_content = models.TextField(verbose_name="咨询内容")
     status_choices  = (

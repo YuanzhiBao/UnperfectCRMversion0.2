@@ -6,17 +6,20 @@ from django.shortcuts import render, redirect
 
 from kingadmin import sites
 
+
+import json
+
 class BaseKingAdmin(object):
     list_display = []
     list_filter = []
     search_fields = []
     list_per_page = 25
     readonly_fields =[]
-    defualt_actions = ['delete_all',]
+    default_actions = ['delete_all']
     actions = []
 
     def __init__(self):
-        self.actions.extend(self.defualt_actions)
+        self.actions.extend(self.default_actions)
 
     def delete_all(self, request, querysets):
         #这里的self就是admin_class
@@ -27,12 +30,12 @@ class BaseKingAdmin(object):
                     # else:
                     #     admin_class = admin_class()
 
-        print(self)
-        # sites.site.enabled_admin
-        # admin_class = site.enabled_admin[app_name][model_name]
-        print("request-->",request)
-        print("request.POST-->",request.POST)
-        print("request_model_name", request.POST.get("model_name"))
+        print(querysets)
+        print("type(querysets)-->",type(querysets))
+        querysets_ids = json.dumps([i.id for i in querysets])
+
+        return render(request, "kingadmin/table_obj_delete.html", {"admin_class":self, "objs": querysets,'querysets_ids':querysets_ids})
+
         # return render(request, "kingadmin/table_obj_delete.html")
 
 
