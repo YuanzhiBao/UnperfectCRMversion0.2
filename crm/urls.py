@@ -8,5 +8,6 @@ from django.conf.urls import url,include
 from crm import views
 
 urlpatterns = [
-    url(r'.*', views.dashboard),
+    url(r'^$', views.dashboard),
+    url(r'^stu_enrollment/$', views.stu_enrollment, name="stu_enrollment"),
 ]

@@ -46,7 +46,7 @@ class CustomerInfo(models.Model):
 
 
 class Student(models.Model):
-    customer = models.ForeignKey("CustomerInfo",on_delete=models.CASCADE)
+    customer = models.OneToOneField("CustomerInfo",on_delete=models.SET_NULL,null=True)
     class_grades = models.ManyToManyField("ClassList")
 
 
@@ -90,10 +90,12 @@ class ClassList(models.Model):
     teacher = models.ManyToManyField("UserProfile", verbose_name="讲师")
     start_date = models.DateField(verbose_name= "开班日期")
     graduate_date = models.DateField(verbose_name="毕业日期", blank=True, null= True)
+    contract = models.ForeignKey("ContractTemplate", on_delete=models.SET_NULL, null=True)
 
 
     def __str__(self):
         return "%s (%s)期" %(self.course.name, self.semester)
+
 
 class CourseRecord(models.Model):
     """上课记录"""
@@ -168,3 +170,40 @@ class Menus(models.Model):
 
     class Meta:
         unique_together = ('name','url_name')
+
+
+class ContractTemplate(models.Model):
+    '''存储合同模板'''
+    name = models.CharField(max_length=64)
+    context = models.TextField()
+
+    date = models.DateField(auto_now_add=True)
+
+
+class StudentEnrollment(models.Model):
+    '''学员报名表'''
+    customer = models.ForeignKey("CustomerInfo", on_delete=models.SET_NULL, null=True)
+    class_grade = models.ForeignKey("ClassList", on_delete=models.SET_NULL,null=True)
+
+    consultant = models.ForeignKey("UserProfile", on_delete=models.SET_NULL,null=True)
+
+    contract_agreed = models.BooleanField(default=False)
+    contract_signed_date = models.DateTimeField(blank=True, null=True)
+    contract_approved = models.BooleanField(default=False)
+    contract_approved_date = models.DateTimeField(verbose_name="合同审核时间", blank=True)
+
+    def __str__(self):
+        return "%s" %self.customer
+
+
+class PaymentRecord(models.Model):
+    '''存储缴费记录'''
+    enrollment = models.ForeignKey("StudentEnrollment",on_delete=models.SET_NULL,null=True)
+    payment_type_choices = ((0,'报名费'),(1,"小费"),(2,'退费'),)
+    payment_type = models.SmallIntegerField(choices=payment_type_choices, default=0)
+    amount = models.IntegerField(default=500)
+    consultant = models.ForeignKey("UserProfile",on_delete=models.SET_NULL,null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+
