@@ -13,5 +13,39 @@
 
 {% block dashboard %}
     <h2 class="page-header">学员报名表</h2>
+
+    <form class="form-horizontal" method="post">{% csrf_token %}
+      <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Student Name</label>
+        <div class="col-sm-10">
+            <select name="customer_id" class="form-control">
+                {% for customer in customers%}
+                    <option value="{{ customer.id }}">{{ customer }}</option>
+                {% endfor %}
+            </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Class</label>
+        <div class="col-sm-10">
+            <select name="class_id" class="form-control">
+                {% for class in class_lists %}
+                    <option value="{{ class.id }}">{{ class }}</option>
+                {% endfor %}
+            </select>
+        </div>
+      </div>
+    {% if not enrollment_link %}
+          <div class="form-group pull-right">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+          </div>
+    {% endif %}
+    </form>
+        {% if enrollment_link %}
+            <p>Enrollment link is {{ enrollment_link }}</p>
+        {% endif %}
+
 {% endblock %}
 

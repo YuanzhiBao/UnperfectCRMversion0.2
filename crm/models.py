@@ -190,7 +190,10 @@ class StudentEnrollment(models.Model):
     contract_agreed = models.BooleanField(default=False)
     contract_signed_date = models.DateTimeField(blank=True, null=True)
     contract_approved = models.BooleanField(default=False)
-    contract_approved_date = models.DateTimeField(verbose_name="合同审核时间", blank=True)
+    contract_approved_date = models.DateTimeField(verbose_name="合同审核时间", blank=True,null=True)
+
+    class Meta:
+        unique_together = ('customer', 'class_grade',)
 
     def __str__(self):
         return "%s" %self.customer
