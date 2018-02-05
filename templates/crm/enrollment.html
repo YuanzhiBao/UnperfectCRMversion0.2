@@ -1,52 +1,112 @@
 {% extends "index.html" %}
 
 
+ {% block extra-css %}
+
+
+
+ {% endblock %}
+
 {% block body %}
 
     <form method="post" onsubmit="BeforeSubmit(this)">{% csrf_token %}
         <div class="col-lg-10 col-lg-offset-1">
             <div class="panel panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title">Enrollment Confirmation</h3>
-              </div>
-              <div class="panel-body row">
-                  {% for field in customer_form %}
-                      <div class="col-lg-6 ">
-                      <label class="col-sm-2  control-label">{{ field.name }}</label>
-                          {{ field }}
-                      <span style="color: red;">{{ field.errors.0 }}</span>
-                      </div>
-
-
-                  {% endfor %}
-              </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Enrollment Confirmation</h3>
+                </div>
+                <div class="panel-body row">
+                    {% for field in customer_form %}
+                        <div class="col-lg-6 ">
+                            <label class="col-sm-2  control-label">{{ field.name }}</label>
+                            {{ field }}
+                            <span style="color: red;">{{ field.errors.0 }}</span>
+                        </div>
+                    {% endfor %}
+                    <div class="panel-body row col-lg-10 col-lg-offset-1">
+                       <label style="float: top" class="col-sm-2  control-label">Contract Content</label>
+                       <div>
+                        <pre style="height: 300px">{{ enrollment_obj.class_grade.contract.content }}</pre>
+                       </div>
+                    </div>
+                 </div>
             </div>
-
-
 
             <div class="form-group">
-                <div class="col-sm-offset-2">
                     <button style="float: right" type="submit" class="btn btn-info">Confirm</button>
-                </div>
+                    <input style="float: left" type="checkbox" name="contract_checkbox">我已经认真阅读并同意
             </div>
+    </div>
         </div>
+    <div class="panel-footer">Panel footer</div>
     </form>
+
+    <div class="col-lg-6 col-lg-offset-1">已经上传文件
+    {% if uploaded_files %}
+    {% for item in uploaded_files %}
+        <p>{{ item }}</p>
+    {% endfor %}
+    {% endif %}
+    </div>
+
+    <div style="margin-bottom: 150px" class="col-lg-6 col-lg-offset-1">
+        <form id="myAwesomeDropzone" action="{% url 'enrollment_file_upload' customer_info.id %}"
+          class="dropzone"
+          id="my-awesome-dropzone">
+        </form>
+    </div>
+
 
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/static/js/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="/static/js/jquery-3.2.1.slim.min.js" integrity="sha256-HAV3kDO0vDW6tsLgTRt+ym0/shORTIOSxgXdtLKw9nc=" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="/static/js/jquery-3.2.1.slim.min.js"><\/script>')</script>
     <script src="/static/js/popper.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
 
+    <script src="/static/plugins/dropzone/dropzone.js"></script>
+
 <script>
 
-function BeforeSubmit(ele) {
-    $(":disabled").removeAttr("disabled")
-}
+    function BeforeSubmit(ele) {
+        $(":disabled").removeAttr("disabled")
 
+    }
+            // Prevent Dropzone from auto discovering this element:
+Dropzone.options.myAwesomeDropzone = false;
+// This is useful when you want to create the
+// Dropzone programmatically later
+
+// Disable auto discover for all elements:
+Dropzone.autoDiscover = false;
+
+    Dropzone.options.myAwesomeDropzone = {
+      paramName: "file", // The name that will be used to transfer the file
+      maxFilesize: 2, // Mb
+      accept: function(file, done) {
+        if (file.name == "justinbieber.jpg") {
+          done("Naha, you don't.");
+        }
+        else { done(); }
+      }
+    };
+
+    $(function () {
+        Dropzone.options.myAwesomeDropzone = false;
+          var myDropzone = new Dropzone("#myAwesomeDropzone");
+          myDropzone.on("success", function(file,response) {
+            /* Maybe display some more file information on your page */
+             console.log("completet", file, response);
+             var response = JSON.parse(response);
+             if (!response.status){
+                 alert(response.err_msg);
+             }else {
+                 $("#uploaded_files").append("<li>"+ file.name +"</li>");
+             }
+          });
+    })
 
 </script>
 

@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^$', views.dashboard),
     url(r'^stu_enrollment/$', views.stu_enrollment, name="stu_enrollment"),
     url(r'^enrollment/(\d+)/$', views.enrollment, name="enrollment"),
+    url(r'^enrollment/(\d+)/file_upload$', views.enrollment_file_upload, name="enrollment_file_upload"),
 ]

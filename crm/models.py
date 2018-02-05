@@ -175,7 +175,8 @@ class Menus(models.Model):
 class ContractTemplate(models.Model):
     '''存储合同模板'''
     name = models.CharField(max_length=64)
-    context = models.TextField()
+
+    content= models.TextField()
 
     date = models.DateField(auto_now_add=True)
 

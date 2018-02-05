@@ -133,3 +133,5 @@ STATICFILES_DIRS = (
 
 LOGIN_URL = '/signin/'
 
+
+UPLOAD_FILES_DIR = os.path.join(BASE_DIR,'crm/upload_files/enrollment_data')
