@@ -38,6 +38,7 @@
 </head>
 
   <body>
+  {% block body %}
   {% block content %}
 
   {% endblock %}
@@ -84,6 +85,8 @@
     <script src="/static/js/bootstrap.min.js"></script>
 
 {% block script %}
+
+{% endblock %}
 
 {% endblock %}
 

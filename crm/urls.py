@@ -10,4 +10,5 @@ from crm import views
 urlpatterns = [
     url(r'^$', views.dashboard),
     url(r'^stu_enrollment/$', views.stu_enrollment, name="stu_enrollment"),
+    url(r'^enrollment/(\d+)/$', views.enrollment, name="enrollment"),
 ]
